@@ -1,4 +1,4 @@
-# Servicenow
+# Servicenow1
 (function executeFixScript() { 
     // Initialize GlideRecord for the target table
     var gr = new GlideRecord('sn_customerservice_case');
