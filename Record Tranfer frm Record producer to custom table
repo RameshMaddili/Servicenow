@@ -1,0 +1,12 @@
+if (current.name == 'Case record producer') {
+    // Create a new record in the custom table
+    var templateRecord = new GlideRecord('u_case_user_template');
+    templateRecord.initialize();
+    templateRecord.u_user = gs.getUserID(); // Set logged-in user
+    templateRecord.u_template_name = current.variables.enter_template_name; // Capture Template Name
+    templateRecord.insert();
+
+    // Notify user and redirect (optional)
+    gs.addInfoMessage('Template saved successfully!');
+    action.setRedirectURL(current); // Stay on the same Record Producer form
+}
