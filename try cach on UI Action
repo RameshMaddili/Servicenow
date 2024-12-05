@@ -1,0 +1,22 @@
+(function executeUIAction() {
+    try {
+        // Create a new Case record
+        var caseRecord = new GlideRecord('sn_customerservice_case');
+        caseRecord.initialize();
+        caseRecord.short_description = "Created from Custom Record: " + current.getDisplayValue('u_user');
+        caseRecord.description = current.u_template_name;
+        caseRecord.caller_id = current.u_user || null;
+        caseRecord.category = "Inquiry"; 
+        var newCaseSysId = caseRecord.insert();
+        // Provide success feedback
+        if (newCaseSysId) {
+            gs.addInfoMessage("New Case record created successfully. Case Number: " + caseRecord.getValue('number'));
+        } else {
+            gs.addErrorMessage("Failed to create Case record.");
+        }
+    } catch (e) {
+        // Handle errors
+        gs.error("Error creating Case record from UI Action: " + e.message);
+        gs.addErrorMessage("An error occurred while creating the Case record. Please contact your administrator.");
+    }
+})();
