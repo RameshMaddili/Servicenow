@@ -1,0 +1,21 @@
+var tempName = producer.enter_template_name; // Retrieve 'Enter Template Name'
+var tempSysId = producer.select_existing_template; // Get selected template Sys ID
+
+if (tempSysId) {
+    // Retrieve the record from sys_template
+    var sysTemplate = new GlideRecord('sys_template');
+    if (sysTemplate.get(tempSysId)) {
+        var tempData = sysTemplate.template; // Get template data
+
+        // Create a new record in the custom table
+        var gr = new GlideRecord('sn_customerservice_case_user_template');
+        gr.initialize();
+        gr.u_template_name = tempName || sysTemplate.name; // Use provided name or template name
+        gr.u_template_data = tempData; // Template content
+        gr.u_user = gs.getUserID(); // Logged-in user
+        var sysId = gr.insert();
+
+        // Log for debugging
+        gs.info('New template record created with Sys ID: ' + sysId, 'Record Producer Script');
+    }
+}
